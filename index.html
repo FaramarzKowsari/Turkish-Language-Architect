@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معمار زبان ترکی - داشبورد آموزشی ۱۰۰ فعل</title>
+    <style>
+        /* Modern Design System by Faramarz Kowsari */
+        :root {
+            --primary: #3b82f6;
+            --bg: #0f172a;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent-root: #fbbf24;
+            --accent-person: #c084fc;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: Tahoma, Geneva, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        #sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-left: 1px solid #1f2937;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            right: 0;
+            z-index: 50;
+        }
+
+        .sidebar-header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .nav-group { padding: 20px 0; flex-grow: 1; }
+        .nav-item {
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            color: var(--text-dim);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-right: 4px solid transparent;
+            transition: 0.3s ease;
+        }
+        .nav-item:hover { background: rgba(59, 130, 246, 0.05); color: var(--text-main); }
+        .nav-item.active { 
+            background: rgba(59, 130, 246, 0.1); 
+            color: var(--primary); 
+            border-right-color: var(--primary);
+            font-weight: bold;
+        }
+        .nav-item.disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* Main Content */
+        main {
+            flex-grow: 1;
+            margin-right: 280px; /* Space for sidebar */
+            padding: 60px 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { max-width: 900px; width: 100%; }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+            position: relative;
+        }
+
+        /* Quiz UI */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .display-box { text-align: center; margin-bottom: 40px; }
+        .v-root { font-size: 72px; font-weight: 900; color: var(--accent-root); line-height: 1; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3)); }
+        .v-mean { color: var(--text-dim); font-size: 20px; margin: 20px 0; display: block; font-style: italic; }
+        .v-person { font-size: 28px; color: var(--accent-person); font-weight: bold; }
+
+        .input-area { margin: 40px 0; text-align: center; }
+        input {
+            width: 90%;
+            padding: 24px;
+            border-radius: 20px;
+            border: 3px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            text-align: center;
+            font-size: 36px;
+            outline: none;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); }
+        input.correct { border-color: var(--success); background: rgba(34, 197, 94, 0.05); }
+        input.wrong { border-color: var(--error); background: rgba(239, 68, 68, 0.05); }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; }
+        .btn { padding: 18px 32px; border-radius: 16px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn-check { background: var(--primary); color: white; flex-grow: 1; max-width: 220px; }
+        .btn-check:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .btn-reveal { background: #475569; color: white; }
+        .btn-nav { background: #334155; color: white; width: 65px; font-size: 28px; display: flex; align-items: center; justify-content: center; }
+
+        .expl-panel {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(59, 130, 246, 0.05);
+            border-right: 6px solid var(--primary);
+            border-radius: 16px;
+            display: none;
+            line-height: 2.2;
+            color: #cbd5e1;
+            text-align: justify;
+        }
+
+        /* List View */
+        .table-scroll { max-height: 600px; overflow-y: auto; border-radius: 16px; border: 1px solid #334155; }
+        table { width: 100%; border-collapse: collapse; background: #1e293b; }
+        th, td { padding: 20px; border-bottom: 1px solid #334155; text-align: center; }
+        th { background: #0f172a; color: var(--text-dim); position: sticky; top: 0; z-index: 10; font-size: 12px; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            #sidebar { width: 100%; height: auto; position: relative; border-left: none; border-bottom: 1px solid #1f2937; }
+            .nav-group { display: flex; overflow-x: auto; padding: 10px; scrollbar-width: none; }
+            .nav-item { white-space: nowrap; border-right: none; border-bottom: 4px solid transparent; padding: 15px; }
+            .nav-item.active { border-bottom-color: var(--primary); }
+            main { margin-right: 0; padding: 20px; }
+            .v-root { font-size: 50px; }
+            input { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h2 style="color:var(--primary); margin:0">معمار زبان ترکی</h2>
+            <p style="font-size:11px; color:var(--text-dim); margin-top:5px;">Language Engineering Framework</p>
+        </div>
+        <nav class="nav-group">
+            <div class="nav-item active" id="nav-quiz" onclick="fkTab('quiz')">آزمایشگاه استمراری (۱۰۰ فعل)</div>
+            <div class="nav-item" id="nav-list" onclick="fkTab('list')">لیست کامل افعال</div>
+            <div class="nav-item disabled">زمان آینده (بزودی)</div>
+            <div class="nav-item disabled">زمان گذشته (بزودی)</div>
+            <div class="nav-item" id="nav-auth" onclick="fkTab('auth')">درباره نویسنده</div>
+        </nav>
+        <div style="padding: 20px; font-size: 11px; color: #4b5563; text-align: center; border-top: 1px solid #1f2937;">
+            طراحی بر پایه هوش مصنوعی <br> نسخه ۱.۲.۰
+        </div>
+    </aside>
+
+    <main>
+        <div class="container">
+            
+            <!-- Quiz Block -->
+            <div id="sec-quiz" class="card">
+                <div class="quiz-header">
+                    <span id="fk-info">STEP 1 / 100</span>
+                    <span id="fk-score">SCORE: 0</span>
+                </div>
+                
+                <div class="display-box">
+                    <span class="v-root" id="v-root">GEL</span>
+                    <span class="v-mean" id="v-mean">(آمدن)</span>
+                    <span class="v-person" id="v-pers">BEN (من)</span>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="fk-input" autocomplete="off" spellcheck="false" placeholder="فعل را کامپایل کنید...">
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-nav" onclick="move(-1)">❮</button>
+                    <button class="btn btn-check" onclick="check()">بررسی صحت (Enter)</button>
+                    <button class="btn btn-reveal" onclick="reveal()">پاسخ</button>
+                    <button class="btn btn-nav" onclick="move(1)">❯</button>
+                </div>
+
+                <div id="v-expl" class="expl-panel"></div>
+            </div>
+
+            <!-- List Block -->
+            <div id="sec-list" class="card" style="display:none">
+                <h2 style="margin:0 0 30px; color:var(--primary)">دیتابیس ۱۰۰ فعل استمراری</h2>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr><th>#</th><th>ریشه</th><th>معنی فارسی</th><th>پاسخ (او)</th></tr>
+                        </thead>
+                        <tbody id="list-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Author Block -->
+            <div id="sec-auth" class="card" style="display:none; text-align:center">
+                <div style="width:120px; height:120px; background:var(--primary); border-radius:50%; margin:0 auto 30px; display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:bold; color:white; box-shadow: 0 15px 30px rgba(59,130,246,0.3);">FK</div>
+                <h2 style="color:var(--primary); margin-bottom:10px;">فرامرز کوثری</h2>
+                <p style="color:var(--text-dim); margin-bottom:30px">پژوهشگر دکترای هوش مصنوعی و معمار زبان</p>
+                <div style="max-width:600px; margin:0 auto; line-height:2;">
+                    <p>این آزمایشگاه بخشی از متد **«مهندسی زبان»** است که با تکیه بر ساختارهای منطقی برای یادگیری سریع‌تر زبان طراحی شده است.</p>
+                    <p>لطفا برای خرید و دانلود کتاب‌های آموزش زبان ترکی به آدرس زیر مراجعه کنید:</p>
+                </div>
+                <a href="https://play.google.com/store/search?q=Kowsari&c=books" target="_blank" 
+                   style="display:inline-block; background:var(--primary); color:white; padding:20px 50px; border-radius:18px; text-decoration:none; font-weight:bold; margin-top:30px; font-size:18px; box-shadow: 0 20px 40px rgba(59,130,246,0.4);">
+                   مشاهده کتاب‌ها در Google Play
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+<script>
+(function() {
+    const verbs = [
+        {r:'Gel', m:'آمدن', e:'ریشه e -> صدای کمکی i'}, {r:'Bak', m:'نگاه کردن', e:'ریشه a -> صدای کمکی ı'},
+        {r:'Koş', m:'دویدن', e:'ریشه o -> صدای کمکی u'}, {r:'Gül', m:'خندیدن', e:'ریشه ü -> صدای کمکی ü'},
+        {r:'Git', m:'رفتن', e:'استثنا: تبدیل t به d در محیط میان‌وندی.'}, {r:'Ye', m:'خوردن', e:'استثنا: باریک‌شدن e به i در ریشه.'},
+        {r:'Oku', m:'خواندن', e:'ریشه مختوم به صدادار، بدون صدای کمکی.'}, {r:'Anla', m:'فهمیدن', e:'حذف a آخر و تبدیل به ı بر اساس هماهنگی.'},
+        {r:'Bekle', m:'منتظر ماندن', e:'حذف e آخر و تبدیل به i بر اساس هماهنگی.'}, {r:'Sor', m:'پرسیدن', e:'ریشه o -> صدای کمکی u'},
+        {r:'Al', m:'گرفتن', e:'ریشه a -> صدای کمکی ı'}, {r:'Ver', m:'دادن', e:'ریشه e -> صدای کمکی i'},
+        {r:'Bul', m:'پیدا کردن', e:'ریشه u -> صدای کمکی u'}, {r:'Dinle', m:'گوش دادن', e:'حذف e و تبدیل به i.'},
+        {r:'Gör', m:'دیدن', e:'ریشه ö -> صدای کمکی ü'}, {r:'Uyu', m:'خوابیدن', e:'بدون صدای کمکی.'},
+        {r:'Yap', m:'انجام دادن', e:'ریشه a -> صدای کمکی ı'}, {r:'İç', m:'نوشیدن', e:'ریشه i -> صدای کمکی i'},
+        {r:'Sev', m:'دوست داشتن', e:'ریشه e -> صدای کمکی i'}, {r:'Kork', m:'ترسیدن', e:'ریشه o -> صدای کمکی u'},
+        {r:'Aç', m:'باز کردن', e:'ریشه a -> صدای کمکی ı'}, {r:'Sat', m:'فروختن', e:'ریشه a -> صدای کمکی ı'},
+        {r:'Bin', m:'سوار شدن', e:'ریشه i -> صدای کمکی i'}, {r:'İn', m:'پیاده شدن', e:'ریشه i -> صدای کمکی i'},
+        {r:'Yürü', m:'پیاده‌روی', e:'بدون صدای کمکی.'}, {r:'Sür', m:'راندن', e:'ریشه ü -> صدای کمکی ü'},
+        {r:'Yat', m:'دراز کشیدن', e:'ریشه a -> صدای کمکی ı'}, {r:'Kalk', m:'بلند شدن', e:'ریشه a -> صدای کمکی ı'},
+        {r:'Uyan', m:'بیدار شدن', e:'ریشه a -> صدای کمکی ı'}, {r:'Uzat', m:'دراز کردن', e:'ریشه a -> صدای کمکی ı'},
+        {r:'Seyret', m:'تماشا کردن', e:'تبدیل t به d در et.'}, {r:'Kaydet', m:'ذخیره کردن', e:'تبدیل t به d در et.'},
+        {r:'Yardım et', m:'کمک کردن', e:'تبدیل t به d در et.'}, {r:'Teşekkür et', m:'تشکر کردن', e:'تبدیل t به d در et.'},
+        {r:'Boya', m:'رنگ کردن', e:'حذف a و تبدیل به u.'}, {r:'Ara', m:'جستجو', e:'حذف a و تبدیل به ı.'},
+        {r:'Oyna', m:'بازی کردن', e:'حذف a و تبدیل به u.'}, {r:'Salla', m:'تکان دادن', e:'حذف a و تبدیل به ı.'},
+        {r:'Hazırla', m:'آماده کردن', e:'حذف a و تبدیل به ı.'}, {r:'Ağla', m:'گریه کردن', e:'حذف a و تبدیل به ı.'},
+        {r:'Özle', m:'دلتنگ شدن', e:'حذف e و تبدیل به ü.'}, {r:'Söyle', m:'گفتن', e:'حذف e و تبدیل به ü.'},
+        {r:'Düşün', m:'فکر کردن', e:'ریشه ü -> ü کمکی.'}, {r:'Unut', m:'فراموش کردن', e:'ریشه u -> u کمکی.'}
+    ];
+
+    // Filling up to 100 verbs for demo
+    const fillerVerbs = ['Çık','Gir','At','Tut','Kır','Vur','Bak','Dene','Seç','Ayır','Tart','Kes','Pişir','Tad','Kokla','Dokun','Gez','Kaç','Sakla','Koru','Ulaş','Dolaş','Gülümse','Karar ver','Dinlen','Fırçala','Tırman','Öğret','Öğren','Kazan','Kaybet','Bitir','Başla','Kapat','Çalış','Kal','Taşı','Kullan','Tanı','Sus','Otur','Yık','Giy','Topla','Payلاش','Mesaj at','Gönder','Getir','Götür','Zıpla','Bırak','Tamir et','İptal et','Kontrol et','Kabul et','Tercih et','Vazgeç','Devam et'];
+    fillerVerbs.forEach(v => {
+        if(verbs.length < 100) verbs.push({r:v, m:'فعل پرکاربرد', e:'طبق هماهنگی اصوات'});
+    });
+
+    const persons = [
+        {id:'Ben', n:'من', s:'um'}, {id:'Sen', n:'تو', s:'sun'}, {id:'O', n:'او', s:''},
+        {id:'Biz', n:'ما', s:'uz'}, {id:'Siz', n:'شما', s:'sunuz'}, {id:'Onlar', n:'ایشان', s:'lar'}
+    ];
+    let items = []; let cur = 0; let score = 0;
+
+    function build() {
+        verbs.forEach((v, i) => {
+            const p = persons[i % 6];
+            let r = v.r.toLowerCase(), res = "";
+            if (r.endsWith(' et')) r = r.slice(0, -3) + 'ed';
+            if (r === 'ye') res = "yiyor"; else if (r === 'de') res = "diyor"; else if (r === 'git') res = "gidiyor";
+            else if (r.endsWith('a') || r.endsWith('e')) {
+                let pen = r.length > 1 ? r.slice(-2,-1) : 'a';
+                let h = 'i'; if('aı'.includes(pen)) h='ı'; else if('ei'.includes(pen)) h='i'; else if('ou'.includes(pen)) h='u'; else if('öü'.includes(pen)) h='ü';
+                res = r.slice(0,-1) + h + "yor";
+            } else {
+                let lastV = (r.match(/[aeıioöuü]/g) || ['a']).pop();
+                let h = 'i'; if('aı'.includes(lastV)) h='ı'; else if('ei'.includes(lastV)) h='i'; else if('ou'.includes(lastV)) h='u'; else if('öü'.includes(lastV)) h='ü';
+                res = r + (r.match(/[aeıioöuü]$/) ? "" : h) + "yor";
+            }
+            items.push({ r:v.r, m:v.m, p:p.id, pn:p.n, ans: res + p.s, expl:v.e });
+        });
+    }
+
+    window.fkTab = function(t) {
+        ['quiz','list','auth'].forEach(s => document.getElementById('sec-'+s).style.display = 'none');
+        ['nav-quiz','nav-list','nav-auth'].forEach(n => document.getElementById(n).classList.remove('active'));
+        document.getElementById('sec-'+t).style.display = 'block';
+        document.getElementById('nav-'+t).classList.add('active');
+        if(t==='list') {
+            const b = document.getElementById('list-body'); b.innerHTML = "";
+            items.forEach((q, i) => { b.innerHTML += `<tr><td>${i+1}</td><td style="font-weight:bold;color:var(--accent-root)">${q.r}</td><td>${q.m}</td><td dir="ltr" style="color:var(--primary)">${q.ans}</td></tr>`; });
+        }
+    };
+
+    window.move = function(d) { cur = (cur+d+100)%100; load(); };
+    function load() {
+        const q = items[cur];
+        document.getElementById('v-root').innerText = q.r.toUpperCase();
+        document.getElementById('v-mean').innerText = `(${q.m})`;
+        document.getElementById('v-pers').innerText = `${q.p.toUpperCase()} (${q.pn})`;
+        document.getElementById('fk-info').innerText = `STEP ${cur+1} / 100`;
+        const i = document.getElementById('fk-input'); i.value = ""; i.className = "";
+        document.getElementById('v-expl').style.display = 'none';
+    }
+
+    window.check = function() {
+        const i = document.getElementById('fk-input');
+        if (i.value.trim().toLowerCase() === items[cur].ans.toLowerCase()) {
+            i.className = "correct"; score += 10;
+            document.getElementById('fk-score').innerText = `SCORE: ${score}`;
+            reveal();
+        } else i.className = "wrong";
+    };
+
+    window.reveal = function() {
+        document.getElementById('fk-input').value = items[cur].ans;
+        const e = document.getElementById('v-expl');
+        e.innerHTML = `<div style="color:#fff;font-weight:bold;margin-bottom:12px;font-size:18px">COMPILE SUCCESS: ${items[cur].ans}</div>${items[cur].expl}`;
+        e.style.display = 'block';
+    };
+
+    build(); load();
+    document.getElementById('fk-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') check(); });
+})();
+</script>
+</body>
+</html>
