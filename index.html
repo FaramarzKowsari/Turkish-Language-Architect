@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turkish Language Architect - Expert Engineering Edition</title>
+    <title>Turkish Language Architect - Master Engineering Edition</title>
     <style>
         :root {
             --primary: #3b82f6;
@@ -146,10 +146,13 @@
             <div class="nav-category" id="cat-aspect">Aspect</div>
             <div class="nav-item" onclick="switchModule('continuous')" id="nav-cont">Continuous (-yor)</div>
             <div class="nav-item" onclick="switchModule('aorist')" id="nav-aor">Aorist</div>
+            <div class="nav-item" onclick="switchModule('perfect')" id="nav-perf">Perfect (-miş)</div>
 
             <div class="nav-category" id="cat-mood">Mood</div>
             <div class="nav-item" onclick="switchModule('imperative')" id="nav-imp">Imperative</div>
             <div class="nav-item" onclick="switchModule('conditional')" id="nav-cond">Conditional</div>
+            <div class="nav-item" onclick="switchModule('obligative')" id="nav-obl">Obligative</div>
+            <div class="nav-item" onclick="switchModule('ability')" id="nav-abil">Ability</div>
 
             <div style="border-top: 1px solid #1f2937; margin: 10px 0;"></div>
             <div class="nav-item" onclick="fkTab('list')" id="nav-list">Master Database</div>
@@ -182,7 +185,7 @@
                 <button class="btn btn-nav" onclick="move(1)">❯</button>
             </div>
             
-            <div id="v-expl" class="expl-panel"></div>
+            <div id="v-expl" class="expl-panel" title="Click for Audio Analysis (Non-Farsi/Arabic)"></div>
 
             <div id="sample-box" class="sample-usage-box">
                 <span id="ui-sample-tag" style="font-size: 10px; color: #475569; display: block; margin-bottom: 10px;">PRACTICAL USAGE:</span>
@@ -222,22 +225,26 @@
         const i18n = {
             en: {
                 title: "Language Architect", check: "Check Accuracy", hint: "Grammar Explanation", reveal: "Show Answer",
-                past: "Simple Past", present: "Present Tense", future: "Future Tense", continuous: "Continuous (-yor)", aorist: "Aorist",
+                past: "Simple Past", present: "Present Tense", future: "Future Tense", continuous: "Continuous (-yor)", aorist: "Aorist", perfect: "Perfect (-miş)",
+                imperative: "Imperative", conditional: "Conditional", obligative: "Obligative", ability: "Ability",
                 catTense: "Tense", catAspect: "Aspect", catMood: "Mood", catHelp: "Academy",
-                personNames: {Ben:"I", Sen:"You", O:"He/She", Biz:"We", Siz:"You (pl)", Onlar:"They"}, academy: "🏛️ Academy", sampleTag: "PRACTICAL USAGE:"
+                personNames: {Ben:"I", Sen:"You", O:"He/She", Biz:"We", Siz:"You (pl)", Onlar:"They"}, academy: "🏛️ Academy", sampleTag: "PRACTICAL USAGE:",
+                thRoot: "Root", thMean: "Meaning", thAns: "Answer"
             },
             fa: {
                 title: "معمار زبان ترکی", check: "بررسی صحت", hint: "توضیح گرامری", reveal: "نمایش پاسخ",
-                past: "گذشته ساده", present: "زمان حال", future: "زمان آینده", continuous: "استمراری (-yor)", aorist: "عادتی",
+                past: "گذشته ساده", present: "زمان حال", future: "زمان آینده", continuous: "استمراری (-yor)", aorist: "عادتی", perfect: "کامل (-miş)",
+                imperative: "حالت امری", conditional: "حالت شرطی", obligative: "الزام", ability: "توانایی",
                 catTense: "زمان", catAspect: "جنبه", catMood: "وجه", catHelp: "آکادمی",
-                personNames: {Ben:"من", Sen:"تو", O:"او", Biz:"ما", Siz:"شما", Onlar:"ایشان"}, academy: "🏛️ آکادمی", sampleTag: "کاربرد عملی (صوت ترکی):"
+                personNames: {Ben:"من", Sen:"تو", O:"او", Biz:"ما", Siz:"شما", Onlar:"ایشان"}, academy: "🏛️ آکادمی", sampleTag: "کاربرد عملی (صوت ترکی):",
+                thRoot: "ریشه", thMean: "معنی", thAns: "پاسخ"
             },
-            es: { title: "Arquitecto de Idiomas", check: "Verificar", hint: "Explicación Gramatical", reveal: "Respuesta", personNames: {Ben:"Yo", Sen:"Tú", O:"Él/Ella", Biz:"Nosotros", Siz:"Ustedes", Onlar:"Ellos"}, academy: "🏛️ Academia", sampleTag: "USO PRÁCTICO:" },
-            de: { title: "Spracharchitekt", check: "Prüfen", hint: "Grammatik-Erklärung", reveal: "Antwort", personNames: {Ben:"Ich", Sen:"Du", O:"Er/Sie", Biz:"Wir", Siz:"Ihr", Onlar:"Sie"}, academy: "🏛️ Akademie", sampleTag: "PRAKTISCHE ANWENDUNG:" },
-            fr: { title: "Architecte de Langue", check: "Vérifier", hint: "Explication Grammaticale", reveal: "Réponse", personNames: {Ben:"Je", Sen:"Tu", O:"Il/Elle", Biz:"Nous", Siz:"Vous", Onlar:"Ils"}, academy: "🏛️ Académie", sampleTag: "USAGE PRATIQUE:" },
-            el: { title: "Αρχιτέκτονας Γλωσσών", check: "Έλεγχος", hint: "Γραμματική Εξήγηση", reveal: "Απάντηση", personNames: {Ben:"Εγώ", Sen:"Εσύ", O:"Αυτός", Biz:"Εμείς", Siz:"Εσείς", Onlar:"Αυτοί"}, academy: "🏛️ Ακαδημία", sampleTag: "ΠΡΑΚΤΙΚΗ ΧΡΗΣΗ:" },
-            zh: { title: "语言架构师", check: "检查", hint: "语法解释", reveal: "显示答案", personNames: {Ben:"我", Sen:"你", O:"他/她", Biz:"我们", Siz:"你们", Onlar:"他们"}, academy: "🏛️ 学院", sampleTag: "实际应用:" },
-            ar: { title: "مهندس اللغة", check: "تحقق", hint: "شرح قواعدي", reveal: "إظهار الإجابة", personNames: {Ben:"أنا", Sen:"أنت", O:"هو/هي", Biz:"نحن", Siz:"أنتم", Onlar:"هم"}, academy: "🏛️ الأكاديمية", sampleTag: "الاستخدام العملي:" }
+            es: { title: "Arquitecto de Idiomas", check: "Verificar", hint: "Explicación Gramatical", reveal: "Respuesta", personNames: {Ben:"Yo", Sen:"Tú", O:"Él/Ella", Biz:"Nosotros", Siz:"Ustedes", Onlar:"Ellos"}, academy: "🏛️ Academia", sampleTag: "USO PRÁCTICO:", past: "Pasado Simple", present: "Presente", future: "Futuro", continuous: "Continuo", aorist: "Aoristo", perfect: "Perfecto", imperative: "Imperativo", conditional: "Condicional", obligative: "Obligatorio", ability: "Habilidad" },
+            de: { title: "Spracharchitekt", check: "Prüfen", hint: "Grammatik-Erklärung", reveal: "Antwort", personNames: {Ben:"Ich", Sen:"Du", O:"Er/Sie", Biz:"Wir", Siz:"Ihr", Onlar:"Sie"}, academy: "🏛️ Akademie", sampleTag: "PRAKTISCHE ANWENDUNG:", past: "Vergangenheit", present: "Präsens", future: "Futur", continuous: "Kontinuierlich", aorist: "Aorist", perfect: "Perfekt", imperative: "Imperativ", conditional: "Konditional", obligative: "Obligatorisch", ability: "Fähigkeit" },
+            fr: { title: "Architecte de Langue", check: "Vérifier", hint: "Explication Grammaticale", reveal: "Réponse", personNames: {Ben:"Je", Sen:"Tu", O:"Il/Elle", Biz:"Nous", Siz:"Vous", Onlar:"Ils"}, academy: "🏛️ Académie", sampleTag: "USAGE PRATIQUE:", past: "Passé Simple", present: "Présent", future: "Futur", continuous: "Continu", aorist: "Aoriste", perfect: "Parfait", imperative: "Impératif", conditional: "Conditionnel", obligative: "Obligatoire", ability: "Capacité" },
+            el: { title: "Αρχιτέκτονας Γλωσσών", check: "Έλεγχος", hint: "Γραμματική Εξήγηση", reveal: "Απάντηση", personNames: {Ben:"Εγώ", Sen:"Εσύ", O:"Αυτός", Biz:"Εμείς", Siz:"Εσείς", Onlar:"Αυτοί"}, academy: "🏛️ Ακαδημία", sampleTag: "ΠΡΑΚΤΙΚΗ ΧΡΗΣΗ:", past: "Αόριστος", present: "Ενεστώτας", future: "Μέλλοντας", continuous: "Διαρκείας", aorist: "Συνήθεια", perfect: "Παρακείμενος", imperative: "Προστακτική", conditional: "Υποθετική", obligative: "Υποχρεωτική", ability: "Ικανότητα" },
+            zh: { title: "语言架构师", check: "检查", hint: "语法解释", reveal: "显示答案", personNames: {Ben:"我", Sen:"你", O:"他/她", Biz:"我们", Siz:"你们", Onlar:"他们"}, academy: "🏛️ 学院", sampleTag: "实际应用:", past: "过去时", present: "现在时", future: "将来时", continuous: "进行时", aorist: "常态时", perfect: "完成时", imperative: "命令式", conditional: "条件式", obligative: "义务式", ability: "能力式" },
+            ar: { title: "مهندس اللغة", check: "تحقق", hint: "شرح قواعدي", reveal: "إظهار الإجابة", personNames: {Ben:"أنا", Sen:"أنت", O:"هو/هي", Biz:"نحن", Siz:"أنتم", Onlar:"هم"}, academy: "🏛️ الأكاديمية", sampleTag: "الاستخدام العملي:", past: "الماضي", present: "المضارع", future: "المستقبل", continuous: "المستمر", aorist: "الواسع", perfect: "الماضي النقلي", imperative: "الأمر", conditional: "الشرط", obligative: "الوجوب", ability: "الاستطاعة" }
         };
 
         window.fkSpeak = function(text, lang = 'tr-TR') {
@@ -267,6 +274,13 @@
             document.getElementById('nav-past').innerText = t.past || "Past";
             document.getElementById('nav-present').innerText = t.present || "Present";
             document.getElementById('nav-future').innerText = t.future || "Future";
+            document.getElementById('nav-cont').innerText = t.continuous || "Continuous";
+            document.getElementById('nav-aor').innerText = t.aorist || "Aorist";
+            document.getElementById('nav-perf').innerText = t.perfect || "Perfect";
+            document.getElementById('nav-imp').innerText = t.imperative || "Imperative";
+            document.getElementById('nav-cond').innerText = t.conditional || "Conditional";
+            document.getElementById('nav-obl').innerText = t.obligative || "Obligative";
+            document.getElementById('nav-abil').innerText = t.ability || "Ability";
             document.getElementById('nav-list').innerText = t.list || "Database";
             document.getElementById('nav-academy').innerText = t.academy || "Academy";
             document.getElementById('nav-auth').innerText = t.auth || "Author";
@@ -288,19 +302,89 @@
             fkTab('quiz'); build();
         };
 
+        // --- Core Turkish Linguistic Engine ---
+        function getLogic(v, p, mod) {
+            let r = v.toLowerCase();
+            let lastV = (r.match(/[aeıioöuü]/g) || ['a']).pop();
+            let isVowelEnded = "aeıioöuü".includes(r.slice(-1));
+            let isHard = "fstkçşhp".includes(r.slice(-1));
+
+            // Helpers
+            const v4 = (v) => "aeıioöuü".includes(v) ? ("aı".includes(v) ? "ı" : "ei".includes(v) ? "i" : "ou".includes(v) ? "u" : "ü") : "i";
+            const v2 = (v) => "aeıioöuü".includes(v) ? ("aıou".includes(v) ? "a" : "e") : "e";
+            
+            const type1 = {Ben: v4(lastV)+'m', Sen: 'sIn', O: '', Biz: v4(lastV)+'z', Siz: 'sInIz', Onlar: 'lAr'};
+            const type2 = {Ben: 'm', Sen: 'n', O: '', Biz: 'k', Siz: 'nIz', Onlar: 'lAr'};
+            const type3 = {Ben: '', Sen: '', O: 'sIn', Biz: '', Siz: 'In', Onlar: 'sInlAr'};
+
+            const applyHarmony = (str, lv) => str.replace(/I/g, v4(lv)).replace(/A/g, v2(lv));
+
+            // Consonant Mutation (git, et, tat)
+            const mutate = (root) => {
+                if (root === 'git') return 'gid';
+                if (root === 'tat') return 'tad';
+                if (root.endsWith('et')) return root.slice(0, -2) + 'ed';
+                return root;
+            };
+
+            switch(mod) {
+                case 'continuous':
+                    if (r === 'ye') r = 'yi'; else if (r === 'de') r = 'di';
+                    else if (isVowelEnded) r = r.slice(0, -1);
+                    return mutate(r) + v4(lastV) + "yor" + applyHarmony(type1[p], 'o');
+
+                case 'past':
+                    let d = isHard ? 't' : 'd';
+                    return r + d + v4(lastV) + applyHarmony(type2[p], lastV);
+
+                case 'future':
+                    let baseF = mutate(r);
+                    if (isVowelEnded) baseF += 'y';
+                    let suffixF = applyHarmony('AcAk', lastV);
+                    if ((p === 'Ben' || p === 'Biz') && suffixF.endsWith('k')) suffixF = suffixF.slice(0, -1) + 'ğ';
+                    return baseF + suffixF + applyHarmony(type1[p], lastV);
+
+                case 'aorist':
+                    let aSuffix = isVowelEnded ? 'r' : (r.length <= 3 ? applyHarmony('Ar', lastV) : applyHarmony('Ir', lastV));
+                    return mutate(r) + aSuffix + applyHarmony(type1[p], lastV);
+
+                case 'perfect':
+                    let m = isHard ? 'm' : 'm'; // -miş is always m
+                    let mSuffix = 'm' + v4(lastV) + 'ş';
+                    return r + mSuffix + applyHarmony(type1[p], lastV);
+
+                case 'imperative':
+                    if (p === 'Ben' || p === 'Biz') return "(N/A)";
+                    return r + applyHarmony(type3[p], lastV);
+
+                case 'conditional':
+                    return r + applyHarmony('sA', lastV) + applyHarmony(type2[p], lastV);
+
+                case 'obligative':
+                    return r + applyHarmony('mAlI', lastV) + applyHarmony(type1[p], lastV);
+                
+                case 'ability':
+                    let ab = isVowelEnded ? 'y' : '';
+                    ab += applyHarmony('Abil', lastV);
+                    // Ability typically carries a tense, defaulting here to aorist for simplicity
+                    return mutate(r) + ab + 'ir' + applyHarmony(type1[p], 'i');
+
+                default: return r;
+            }
+        }
+
         function generateDetailedHint(v, p, mod, ans) {
             const curI18n = i18n[sourceLang] || i18n['en'];
             const pName = (curI18n.personNames || i18n['en'].personNames)[p] || p;
-            
             const hints = {
                 en: `Engineering Analysis: We take the root "${v}". Based on vowel harmony, the "${mod}" operator is applied. For "${pName}", the structure compiles as "${ans}".`,
                 fa: `تحلیل مهندسی: ریشه «${v}» با توجه به قوانین هماهنگی اصوات پردازش می‌شود. برای ضمیر «${pName}»، ساختار نهایی به صورت «${ans}» کامپایل می‌گردد.`,
-                es: `Análisis: Usamos la raíz "${v}". Según la armonía vocálica, aplicamos el operador "${mod}". Para "${pName}", la forma final es "${ans}".`,
-                de: `Analyse: Wir nehmen den Stamm "${v}". Basierend auf der Vokalharmonie wird der Operator "${mod}" angewendet. Für "${pName}" lautet das Ergebnis "${ans}".`,
-                fr: `Analyse : Nous prenons la racine "${v}". En suivant l'harmonie vocalique, l'opérateur "${mod}" est appliqué. Pour "${pName}", la forme finale est "${ans}".`,
-                el: `Ανάλυση: Χρησιμοποιούμε τη ρίζα "${v}". Με βάση τη φωνητική αρμονία, εφαρμόζεται ο τελεστής "${mod}". Για το "${pName}", η τελική μορφή είναι "${ans}".`,
-                zh: `分析：提取词根 "${v}"。根据元音和谐规则应用 "${mod}" 算子。对于人称 "${pName}"，最终形式为 "${ans}"。`,
-                ar: `التحليل: نستخدم الجذر "${v}". بناءً على التوافق الصوتي، نطبق عامل "${mod}". بالنسبة للضمير "${pName}"، الصيغة النهائية هي "${ans}".`
+                ar: `التحليل الهندسي: نأخذ الجذر "${v}". بناءً على التوافق الصوتي، يتم تطبيق عامل "${mod}". بالنسبة للضمير "${pName}"، يتم تجميع الصيغة لتصبح "${ans}".`,
+                es: `Análisis de ingeniería: Tomamos la raíz "${v}". Según la armonía vocálica, se aplica el operador "${mod}". Para "${pName}", la estructura se compila como "${ans}".`,
+                de: `Engineering-Analyse: Wir nehmen den Stamm "${v}". Basierend auf der Vokalharmonie wird der Operator "${mod}" angewendet. Für "${pName}" wird die Struktur als "${ans}" kompiliert.`,
+                fr: `Analyse d'ingénierie : Nous prenons la racine "${v}". Basé sur l'harmonie vocalique, l'opérateur "${mod}" est appliqué. Pour "${pName}", la structure est compilée en "${ans}".`,
+                el: `Ανάλυση Μηχανικής: Παίρνουμε τη ρίζα "${v}". Με βάση τη φωνητική αρμονία, εφαρμόζεται ο τελεστής "${mod}". Για το πρόσωπο "${pName}", η δομή μεταγλωττίζεται ως "${ans}".`,
+                zh: `工程分析：我们提取词根 "${v}"。根据元音和谐规则应用 "${mod}" 算子。对于 "${pName}"，最终结构编译为 "${ans}"。`
             };
             return hints[sourceLang] || hints['en'];
         }
@@ -311,28 +395,11 @@
             'Bak': { en: "to look", fa: "نگاه کردن", scen: { tr: "Pencereden dışarıya dikkatle bakıyorum. Kar yağıyor ve her yer bembeyaz. Doğa bugün harika görünüyor.", en: "I am looking out the window carefully. It's snowing and everywhere is pitch white. Nature looks wonderful today.", fa: "با دقت از پنجره به بیرون نگاه می‌کنم. برف می‌بارد و همه‌جا کاملاً سفید است. طبیعت امروز فوق‌العاده به نظر می‌رسد." }},
             'Oku': { en: "to read", fa: "خواندن", scen: { tr: "Kütüphanede sessizce kitap okuyorum. Bu hikaye beni çok etkiledi. Akşam bitirmeyi planlıyorum.", en: "I am reading a book quietly in the library. This story moved me a lot. I plan to finish it tonight.", fa: "در کتابخانه با آرامش کتاب می‌خوانم. این داستان خیلی مرا تحت تاثیر قرار داد. قصد دارم امشب تمامش کنم." }},
             'Yaz': { en: "to write", fa: "نوشتن", scen: { tr: "Günlüğüme bugünkü anılarımı yazıyorum. Çok maceralı bir gündü. Gelecekte bunları tekrar okuyacağım.", en: "I am writing today's memories in my diary. It was a very adventurous day. I will read these again in the future.", fa: "خاطرات امروز را در دفترچه خاطراتم می‌نویسم. روز بسیار پرماجرایی بود. در آینده دوباره این‌ها را خواهم خواند." }}
-            // More verbs can be mapped here similarly...
         };
-
-        function getLogic(v, p, mod) {
-            let r = v.toLowerCase(); let lv = (r.match(/[aeıioöuü]/g)||['a']).pop();
-            const sPresent = {Ben:'um',Sen:'sun',O:'',Biz:'uz',Siz:'sunuz',Onlar:'lar'};
-            if(mod==='continuous') {
-                if(r==='ye') r='yiyor'; else if(r==='de') r='diyor'; else if(r==='git') r='gidiyor'; else if(r.endsWith('a')||r.endsWith('e')) r=r.slice(0,-1)+('aı'.includes(r.slice(-2,-1))?'ı':'i')+'yor';
-                else { let h='i'; if('aı'.includes(lv)) h='ı'; else if('ou'.includes(lv)) h='u'; else if('öü'.includes(lv)) h='ü'; r+=h+'yor'; }
-                return r + sPresent[p];
-            }
-            if(mod==='past') {
-                let d = "fstkçşhp".includes(r.slice(-1))?'t':'d'; let h='i'; if('aı'.includes(lv)) h='ı'; else if('ou'.includes(lv)) h='u'; else if('öü'.includes(lv)) h='ü';
-                const s = {Ben:'m',Sen:'n',O:'',Biz:'k',Siz:h+'niz',Onlar:'lar'};
-                return r+d+h+s[p];
-            }
-            return r;
-        }
 
         function build() {
             items = [];
-            const basePool = ['Gel','Bak','Git','Oku','Yaz','Gör','Sev','Yap','İç','Sor','Al','Bul','Ver','Uyu','Koş','Gül','Dur','Kapat','Aç','Dinle','Bil','Bitir','Çalış','Kal','Sür','Yüz','Bin','İn','Uç','Taşı','Düşün','Tanı','Özle','Sus','Otur','Kalk','Yat','Yık','Giy','Dene','Seç','Topla','Ara','Gönder','Getir','Götür','Kazan','Kaybet','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Uلاش','Salla','Tart','Bit','Seyret','Kaydet','Park et','Kabul et','İptal et','Tamir et','Vazgeç','Sabret','Dolaş','Uzat','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Hızlan','Yavaşla','Koru','Hisset','Teşekkür et','Kahvaltı yap','Spor yap'];
+            const basePool = ['Gel','Bak','Git','Oku','Yaz','Gör','Sev','Yap','İç','Sor','Al','Bul','Ver','Uyu','Koş','Gül','Dur','Kapat','Aç','Dinle','Bil','Bitir','Çalış','Kal','Sür','Yüz','Bin','İn','Uç','Taşı','Düşün','Tanı','Özle','Sus','Otur','Kalk','Yat','Yık','Giy','Dene','Seç','Topla','Ara','Gönder','Getir','Götür','Kazan','Kaybet','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Hızlan','Yavaşla','Koru','Hisset','Teşekkür et','Kahvaltı yap','Spor yap'];
             const personKeys = ['Ben','Sen','O','Biz','Siz','Onlar'];
 
             for(let i=0; i<100; i++) {
@@ -340,7 +407,6 @@
                 let pKey = personKeys[i % 6];
                 let ans = getLogic(r, pKey, currentModule);
                 
-                // Fetch or generate unique scenario
                 let info = verbContexts[r] || {scen: {tr: `${r} eylemi hakkında bir hikaye. Her şey yolunda gidecek.`, en: `A story about the action of ${r}. Everything will be fine.`, fa: `داستانی درباره عمل ${r}. همه چیز خوب پیش خواهد رفت.`}};
                 
                 items.push({
@@ -357,6 +423,10 @@
             document.getElementById('sec-'+t).style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             if(t === 'list') renderList();
+            if(t === 'academy') {
+                const tInfo = i18n[sourceLang] || i18n['en'];
+                document.getElementById('academy-body').innerHTML = `<h2>${tInfo.academy}</h2><p>Engineering Turkish: A Lego Architecture</p><p>Explore the rules of vowel harmony and agglutination in this module.</p>`;
+            }
         };
 
         window.move = function(d) { cur=(cur+d+100)%100; load(); };
