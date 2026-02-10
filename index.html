@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معمار زبان ترکی - آزمایشگاه صوتی ۱۰۰ فعل</title>
+    <title>Turkish Language Architect - Master Engineering Edition</title>
     <style>
         :root {
             --primary: #3b82f6;
@@ -17,226 +17,434 @@
             --success: #22c55e;
             --error: #ef4444;
         }
-        body { font-family: Tahoma, Geneva, sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; display: flex; min-height: 100vh; overflow-x: hidden; }
-        #sidebar { width: 280px; background-color: var(--sidebar-bg); border-left: 1px solid #1f2937; display: flex; flex-direction: column; position: fixed; height: 100vh; right: 0; z-index: 50; }
-        .sidebar-header { padding: 40px 20px; text-align: center; border-bottom: 1px solid #1f2937; }
-        .nav-group { padding: 20px 0; flex-grow: 1; }
-        .nav-item { padding: 16px 24px; display: flex; align-items: center; color: var(--text-dim); text-decoration: none; cursor: pointer; font-size: 14px; border-right: 4px solid transparent; transition: 0.3s ease; }
-        .nav-item:hover { background: rgba(59, 130, 246, 0.05); color: var(--text-main); }
-        .nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--primary); border-right-color: var(--primary); font-weight: bold; }
-        .nav-item.disabled { opacity: 0.3; cursor: not-allowed; }
-        main { flex-grow: 1; margin-right: 280px; padding: 60px 40px; display: flex; justify-content: center; }
-        .card { background-color: var(--card-bg); border-radius: 24px; padding: 50px 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid #334155; position: relative; width: 100%; max-width: 900px; }
-        .quiz-header { display: flex; justify-content: space-between; margin-bottom: 30px; color: var(--primary); font-weight: bold; font-size: 14px; }
-        .v-root { font-size: 72px; font-weight: 900; color: var(--accent-root); display: block; text-align: center; cursor: pointer; transition: 0.2s; }
-        .v-root:hover { transform: scale(1.05); filter: brightness(1.2); }
-        .v-mean { color: var(--text-dim); font-size: 20px; margin: 20px 0; display: block; font-style: italic; text-align: center; }
-        .v-person { font-size: 28px; color: var(--accent-person); font-weight: bold; text-align: center; display: block; }
-        .input-area { margin: 40px 0; text-align: center; }
-        input { width: 90%; padding: 24px; border-radius: 20px; border: 3px solid #334155; background: #0f172a; color: #fff; text-align: center; font-size: 36px; outline: none; transition: 0.4s; font-family: monospace; }
-        input.correct { border-color: var(--success); }
-        input.wrong { border-color: var(--error); }
-        .btn-group { display: flex; justify-content: center; gap: 15px; }
-        .btn { padding: 18px 32px; border-radius: 16px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
-        .btn-check { background: var(--primary); color: white; flex-grow: 1; max-width: 220px; }
-        .btn-check:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .btn-reveal { background: #475569; color: white; }
-        .btn-nav { background: #334155; color: white; width: 65px; font-size: 28px; }
-        .expl-panel { margin-top: 40px; padding: 30px; background: rgba(59, 130, 246, 0.05); border-right: 6px solid var(--primary); border-radius: 16px; display: none; line-height: 2.2; color: #cbd5e1; text-align: justify; }
-        
-        .sample-usage-box {
-            margin-top: 40px;
-            padding: 30px;
-            background: #111827;
-            border-radius: 20px;
-            border: 1px dashed #334155;
-            text-align: center;
-        }
-        .sample-tr {
-            color: #38bdf8;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            display: block;
-            margin-bottom: 15px;
-            transition: 0.2s;
-            line-height: 1.6;
-        }
-        .sample-tr:hover { color: #7dd3fc; background: rgba(56, 189, 248, 0.05); border-radius: 10px; }
-        .sample-fa {
-            color: #94a3b8;
-            font-size: 14px;
-            display: block;
-            line-height: 1.8;
-            text-align: justify;
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            margin: 0; 
+            display: flex; 
+            min-height: 100vh; 
+            overflow-x: hidden;
         }
 
-        .table-scroll { max-height: 600px; overflow-y: auto; border: 1px solid #334155; border-radius: 16px; }
-        table { width: 100%; border-collapse: collapse; background: #1e293b; }
-        th, td { padding: 20px; border-bottom: 1px solid #334155; text-align: center; }
-        th { background: #0f172a; color: var(--text-dim); position: sticky; top: 0; }
-        .btn-speak { background: #334155; color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; transition: 0.2s; }
-        .btn-speak:hover { background: var(--primary); }
-        @media (max-width: 992px) { #sidebar { width: 100%; height: auto; position: relative; } main { margin-right: 0; padding: 20px; } .v-root { font-size: 45px; } }
+        .rtl { direction: rtl; }
+        .ltr { direction: ltr; }
+
+        #sidebar { 
+            width: 300px; 
+            background-color: var(--sidebar-bg); 
+            border-right: 1px solid #1f2937; 
+            border-left: 1px solid #1f2937;
+            display: flex; 
+            flex-direction: column; 
+            position: fixed; 
+            height: 100vh; 
+            z-index: 50; 
+            overflow-y: auto;
+        }
+
+        .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 1px solid #1f2937; }
+        .lang-select-box { padding: 15px 20px; border-bottom: 1px solid #1f2937; }
+        select { 
+            width: 100%; padding: 12px; border-radius: 8px; 
+            background: #1e293b; color: white; border: 1px solid #334155; 
+            outline: none; cursor: pointer; font-size: 13px;
+        }
+
+        .nav-category {
+            padding: 15px 20px 5px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary);
+            font-weight: 900;
+            background: rgba(59, 130, 246, 0.03);
+        }
+
+        .nav-item { 
+            padding: 10px 24px; display: flex; align-items: center; 
+            color: var(--text-dim); text-decoration: none; cursor: pointer; 
+            font-size: 12.5px; transition: 0.3s; border-left: 4px solid transparent; border-right: 4px solid transparent;
+        }
+        .nav-item:hover { background: rgba(59, 130, 246, 0.05); color: var(--text-main); }
+        .nav-item.active { background: rgba(59, 130, 246, 0.1); color: var(--primary); font-weight: bold; }
+
+        main { flex-grow: 1; padding: 40px; display: flex; justify-content: center; transition: margin 0.3s ease; }
+
+        .card { 
+            background-color: var(--card-bg); border-radius: 24px; padding: 40px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border: 1px solid #334155; 
+            width: 100%; max-width: 900px; position: relative; 
+        }
+
+        .quiz-header { display: flex; justify-content: space-between; margin-bottom: 30px; color: var(--primary); font-weight: bold; font-size: 13px; }
+        .v-root { font-size: 64px; font-weight: 900; color: var(--accent-root); display: block; text-align: center; cursor: pointer; }
+        .v-mean { color: var(--text-dim); font-size: 18px; margin: 15px 0; display: block; font-style: italic; text-align: center; }
+        .v-person { font-size: 24px; color: var(--accent-person); font-weight: bold; text-align: center; display: block; margin-bottom: 20px; }
+
+        .input-area { margin: 30px 0; text-align: center; }
+        input { 
+            width: 90%; padding: 20px; border-radius: 18px; border: 3px solid #334155; 
+            background: #0f172a; color: #fff; text-align: center; font-size: 32px; 
+            outline: none; transition: 0.4s; font-family: monospace; 
+        }
+        input.correct { border-color: var(--success); background: rgba(34, 197, 94, 0.05); }
+        input.wrong { border-color: var(--error); }
+
+        .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .btn { padding: 15px 25px; border-radius: 14px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        .btn-check { background: var(--primary); color: white; flex-grow: 1; max-width: 200px; }
+        .btn-hint { background: #1e293b; color: #60a5fa; border: 1px solid #3b82f6; }
+        .btn-reveal { background: #475569; color: white; }
+        .btn-nav { background: #334155; color: white; width: 60px; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+
+        .expl-panel { 
+            margin-top: 30px; padding: 25px; background: rgba(59, 130, 246, 0.05); 
+            border-radius: 16px; display: none; line-height: 2; color: #cbd5e1; 
+            text-align: justify; font-size: 15px; border-right: 4px solid var(--primary); border-left: 4px solid var(--primary);
+            cursor: pointer; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .sample-usage-box { margin-top: 30px; padding: 25px; background: #111827; border-radius: 20px; border: 1px solid #334155; text-align: center; }
+        .sample-tr { color: #38bdf8; font-size: 20px; font-weight: bold; cursor: pointer; display: block; margin-bottom: 12px; line-height: 1.6; }
+        .sample-target { color: #94a3b8; font-size: 15px; display: block; text-align: justify; line-height: 1.8; border-top: 1px solid #334155; padding-top: 10px; margin-bottom: 20px; }
+
+        /* Scenario Visualization Image */
+        .scenario-viz { width: 100%; height: 250px; border-radius: 16px; object-fit: cover; border: 1px solid #334155; background: #0f172a; }
+
+        .author-photo-container {
+            width: 150px; height: 150px; margin: 0 auto 20px; position: relative;
+        }
+        .author-photo {
+            width: 100%; height: 100%; border-radius: 50%; border: 5px solid var(--primary);
+            object-fit: cover; display: block; box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        .author-fallback {
+            width: 100%; height: 100%; border-radius: 50%; background: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: bold;
+            color: white; border: 5px solid #334155;
+        }
+
+        .auth-btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        .btn-social { padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .btn-linkedin { background: #0077b5; color: white; }
+        .btn-googleplay { background: var(--primary); color: white; }
+
+        @media (max-width: 992px) { 
+            #sidebar { width: 100%; height: auto; position: relative; border: none; } 
+            main { padding: 20px; margin: 0 !important; }
+        }
     </style>
 </head>
-<body>
+<body class="ltr">
     <aside id="sidebar">
         <div class="sidebar-header">
-            <h2 style="color:var(--primary); margin:0">معمار زبان ترکی</h2>
-            <p style="font-size:11px; color:var(--text-dim); margin-top:5px;">هوش مصنوعی و مهندسی زبان - Dr. Kowsari</p>
+            <h2 id="ui-title" style="color:var(--primary); margin:0">Language Architect</h2>
+            <p style="font-size:10px; color:var(--text-dim); margin-top:5px;">Faramarz Kowsari Lab</p>
         </div>
-        <nav class="nav-group">
-            <div class="nav-item active" id="nav-quiz" onclick="fkTab('quiz')">آزمایشگاه استمراری</div>
-            <div class="nav-item" id="nav-list" onclick="fkTab('list')">لیست کامل (با صوت)</div>
-            <div class="nav-item disabled">زمان آینده (بزودی)</div>
-            <div class="nav-item" id="nav-auth" onclick="fkTab('auth')">درباره نویسنده</div>
+        
+        <div class="lang-select-box">
+            <select id="lang-selector" onchange="changeSourceLang(this.value)">
+                <option value="en">🇺🇸 English</option>
+                <option value="fa">🇮🇷 Persian (فارسی)</option>
+                <option value="es">🇪🇸 Spanish (Español)</option>
+                <option value="de">🇩🇪 German (Deutsch)</option>
+                <option value="fr">🇫🇷 French (Français)</option>
+                <option value="el">🇬🇷 Greek (Ελληνικά)</option>
+                <option value="zh">🇨🇳 Chinese (中文)</option>
+                <option value="ar">🇸🇦 Arabic (العربية)</option>
+            </select>
+        </div>
+
+        <nav class="nav-group" id="module-nav">
+            <div class="nav-category" id="cat-tense">Tense</div>
+            <div class="nav-item active" onclick="switchModule('past')" id="nav-past">Simple Past</div>
+            <div class="nav-item" onclick="switchModule('present')" id="nav-present">Present Tense</div>
+            <div class="nav-item" onclick="switchModule('future')" id="nav-future">Future Tense</div>
+
+            <div class="nav-category" id="cat-aspect">Aspect</div>
+            <div class="nav-item" onclick="switchModule('continuous')" id="nav-cont">Continuous (-yor)</div>
+            <div class="nav-item" onclick="switchModule('aorist')" id="nav-aor">Aorist</div>
+
+            <div class="nav-category" id="cat-mood">Mood</div>
+            <div class="nav-item" onclick="switchModule('imperative')" id="nav-imp">Imperative</div>
+            <div class="nav-item" onclick="switchModule('conditional')" id="nav-cond">Conditional</div>
+            <div class="nav-item" onclick="switchModule('obligative')" id="nav-obl">Obligative</div>
+
+            <div style="border-top: 1px solid #1f2937; margin: 10px 0;"></div>
+            <div class="nav-item" onclick="fkTab('list')" id="nav-list">Master Database</div>
+            <div class="nav-category" id="cat-help">Academy</div>
+            <div class="nav-item" onclick="fkTab('academy')" id="nav-academy">🏛️ Academy (Help)</div>
+            <div class="nav-item" onclick="fkTab('auth')" id="nav-auth">The Architect</div>
         </nav>
     </aside>
-    <main>
-        <div class="card" id="sec-quiz">
-            <div class="quiz-header"><span id="fk-info">گام ۱ از ۱۰۰</span><span id="fk-score">امتیاز: ۰</span></div>
-            <div class="display-box">
-                <span class="v-root" id="v-root" title="تلفظ ریشه">GEL</span>
-                <span class="v-mean" id="v-mean">(آمدن)</span>
-                <span class="v-person" id="v-pers">BEN (من)</span>
+
+    <main id="main-area">
+        <div class="card" id="sec-quiz" style="display:block">
+            <div class="quiz-header">
+                <span id="module-title-ui">Module</span>
+                <span id="fk-info">Step 1</span>
+                <span id="fk-score">Score: 0</span>
             </div>
-            <div class="input-area"><input type="text" id="fk-input" autocomplete="off" spellcheck="false" placeholder="پاسخ..."></div>
+            <div class="display-box">
+                <span class="v-root" id="v-root" title="Click for Turkish Audio">GEL</span>
+                <span class="v-mean" id="v-mean">...</span>
+                <span class="v-person" id="v-pers">...</span>
+            </div>
+            <div class="input-area">
+                <input type="text" id="fk-input" autocomplete="off" spellcheck="false" placeholder="...">
+            </div>
             <div class="btn-group">
                 <button class="btn btn-nav" onclick="move(-1)">❮</button>
-                <button class="btn btn-check" onclick="check()">بررسی</button>
-                <button class="btn btn-reveal" onclick="reveal()">پاسخ</button>
+                <button class="btn btn-check" id="ui-btn-check" onclick="check()">Check</button>
+                <button class="btn btn-hint" id="ui-btn-hint" onclick="toggleHint()">Grammar Explanation</button>
+                <button class="btn btn-reveal" id="ui-btn-reveal" onclick="reveal()">Show Answer</button>
                 <button class="btn btn-nav" onclick="move(1)">❯</button>
             </div>
             
-            <div id="sample-box" class="sample-usage-box">
-                <span style="font-size: 10px; color: #475569; display: block; margin-bottom: 10px; letter-spacing: 1px;">کاربرد در دنیای واقعی (برای شنیدن پاراگراف کلیک کنید):</span>
-                <span class="sample-tr" id="sample-tr" title="پخش پاراگراف صوتی">...</span>
-                <span class="sample-fa" id="sample-fa">...</span>
-            </div>
-
             <div id="v-expl" class="expl-panel"></div>
+
+            <div id="sample-box" class="sample-usage-box">
+                <span id="ui-sample-tag" style="font-size: 10px; color: #475569; display: block; margin-bottom: 10px;">PRACTICAL USAGE:</span>
+                <span class="sample-tr" id="sample-tr" title="Play Turkish Audio">...</span>
+                <span class="sample-target" id="sample-target">...</span>
+                <img id="scenario-img" src="" class="scenario-viz" alt="Scenario Visualization">
+            </div>
         </div>
+
+        <div class="card" id="sec-academy" style="display:none"><div class="academy-content" id="academy-body"></div></div>
+        
         <div class="card" id="sec-list" style="display:none">
-            <h2 style="color:var(--primary); margin-bottom:20px">دیتابیس ۱۰۰ فعل (تلفظ آنلاین)</h2>
-            <div class="table-scroll"><table><thead><tr><th>#</th><th>ریشه</th><th>معنی</th><th>پاسخ (O)</th><th>صوت</th></tr></thead><tbody id="list-body"></tbody></table></div>
+            <h2 id="list-title-ui" style="color:var(--primary)">Linguistic Database</h2>
+            <div class="table-scroll"><table><thead><tr><th>#</th><th id="th-root">Root</th><th id="th-mean">Meaning</th><th id="th-ans">Answer</th><th>Audio</th></tr></thead><tbody id="list-body"></tbody></table></div>
         </div>
+
         <div class="card" id="sec-auth" style="display:none; text-align:center">
-            <div style="width:100px; height:100px; background:var(--primary); border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:bold; color:white;">FK</div>
-            <h2>فرامرز کوثری</h2>
-            <p>پژوهشگر هوش مصنوعی و نویسنده متد مهندسی زبان</p>
-            <a href="https://play.google.com/store/search?q=Faramarz_Kowsari&c=books" target="_blank" style="display:inline-block; background:var(--primary); color:white; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:bold; margin-top:20px">Google Play Books</a>
+            <div class="author-photo-container">
+                <img id="author-img" src="https://media.licdn.com/dms/image/v2/D4D03AQGBE3mihPZMzw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1705066609093?e=1772064000&v=beta&t=OBpBbgDTZSgHBg_E_UQaWRyS-jwCaC5tK9ry36PvOiQ" 
+                     class="author-photo" 
+                     alt="Faramarz Kowsari" 
+                     onerror="this.style.display='none'; document.getElementById('author-fallback').style.display='flex';">
+                <div id="author-fallback" class="author-fallback" style="display:none;">FK</div>
+            </div>
+            <h2 id="ui-author-name">Faramarz Kowsari</h2>
+            <p id="ui-author-desc">PhD Researcher in AI & Language Architect</p>
+            <div class="auth-btn-group">
+                <a href="https://linkedin.com/in/faramarzkowsari" target="_blank" class="btn-social btn-linkedin">LinkedIn Profile</a>
+                <a href="https://play.google.com/store/search?q=Faramarz_Kowsari&c=books" target="_blank" class="btn-social btn-googleplay">Google Play Books</a>
+            </div>
         </div>
     </main>
+
     <script>
     (function(){
-        window.fkSpeak = function(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const msg = new SpeechSynthesisUtterance(text);
-                msg.lang = 'tr-TR';
-                msg.rate = 0.82;
-                window.speechSynthesis.speak(msg);
-            }
+        let currentModule = 'past'; let sourceLang = 'en'; let cur = 0; let score = 0; let items = [];
+
+        const i18n = {
+            en: {
+                title: "Language Architect", check: "Check Accuracy", hint: "Grammar Explanation", reveal: "Show Answer",
+                past: "Simple Past", present: "Present Tense", future: "Future Tense", continuous: "Continuous (-yor)", aorist: "Aorist",
+                catTense: "Tense", catAspect: "Aspect", catMood: "Mood", catHelp: "Academy",
+                personNames: {Ben:"I", Sen:"You", O:"He/She", Biz:"We", Siz:"You (pl)", Onlar:"They"}, 
+                thRoot: "Root", thMean: "Meaning", thAns: "Answer", academy: "🏛️ Academy", sampleTag: "PRACTICAL USAGE:"
+            },
+            fa: {
+                title: "معمار زبان ترکی", check: "بررسی صحت", hint: "توضیح گرامری", reveal: "نمایش پاسخ",
+                past: "گذشته ساده", present: "زمان حال", future: "زمان آینده", continuous: "استمراری (-yor)", aorist: "عادتی",
+                catTense: "زمان", catAspect: "جنبه", catMood: "وجه", catHelp: "آکادمی",
+                personNames: {Ben:"من", Sen:"تو", O:"او", Biz:"ما", Siz:"شما", Onlar:"ایشان"}, 
+                thRoot: "ریشه", thMean: "معنی", thAns: "پاسخ", academy: "🏛️ آکادمی", sampleTag: "کاربرد عملی (صوت ترکی):"
+            },
+            es: { title: "Arquitecto de Idiomas", check: "Verificar", hint: "Explicación Gramatical", reveal: "Respuesta", personNames: {Ben:"Yo", Sen:"Tú", O:"Él/Ella", Biz:"Nosotros", Siz:"Ustedes", Onlar:"Ellos"}, academy: "🏛️ Academia" },
+            de: { title: "Spracharchitekt", check: "Prüfen", hint: "Grammatik-Erklärung", reveal: "Antwort", personNames: {Ben:"Ich", Sen:"Du", O:"Er/Sie", Biz:"Wir", Siz:"Ihr", Onlar:"Sie"}, academy: "🏛️ Akademie" },
+            fr: { title: "Architecte de Langue", check: "Vérifier", hint: "Explication Grammaticale", reveal: "Réponse", personNames: {Ben:"Je", Sen:"Tu", O:"Il/Elle", Biz:"Nous", Siz:"Vous", Onlar:"Ils"}, academy: "🏛️ Académie" },
+            el: { title: "Αρχιτέκτονας Γλωσσών", check: "Έλεγχος", hint: "Γραμματική Εξήγηση", reveal: "Απάντηση", personNames: {Ben:"Εγώ", Sen:"Εσύ", O:"Αυτός", Biz:"Εμείς", Siz:"Εσείς", Onlar:"Αυτοί"}, academy: "🏛️ Ακαδημία" },
+            zh: { title: "语言架构师", check: "检查", hint: "语法解释", reveal: "显示答案", personNames: {Ben:"我", Sen:"你", O:"他/她", Biz:"我们", Siz:"你们", Onlar:"他们"}, academy: "🏛️ 学院" },
+            ar: { title: "مهندس اللغة", check: "تحقق", hint: "شرح قواعدي", reveal: "إظهار الإجابة", personNames: {Ben:"أنا", Sen:"أنت", O:"هو/هي", Biz:"نحن", Siz:"أنتم", Onlar:"هم"}, academy: "🏛️ الأكاديمية" }
         };
 
-        // دیتابیس با جملات کاربردی طولانی
-        const verbs = [
-            {r:'Gel', m:'آمدن', e:'ریشه e -> i کمکی', s:'Annem akşam yemeği için eve geliyor. Hepimiz büyük bir heyecanla masada oturuyoruz.', sf:'مادرم برای شام به خانه می‌آید. همه‌ی ما با هیجان بزرگی دور میز نشسته‌ایم.'},
-            {r:'Bak', m:'نگاه کردن', e:'ریشه a -> ı کمکی', s:'Çocuk pencereden dışarıya dikkatle bakıyor. Kar yağıyor ve her yer bembeyaz görünüyor.', sf:'کودک با دقت از پنجره به بیرون نگاه می‌کند. برف می‌بارد و همه‌جا کاملاً سفید به نظر می‌رسد.'},
-            {r:'Koş', m:'دویدن', e:'ریشه o -> u کمکی', s:'Sporcular parkta hızlıca koşuyorlar. Onlar maraton için her gün çok sıkı çalışıyorlar.', sf:'ورزشکاران در پارک با سرعت می‌دوند. آن‌ها هر روز برای مسابقه‌ی ماراتن بسیار سخت تلاش می‌کنند.'},
-            {r:'Gül', m:'خندیدن', e:'ریشه ü -> ü کمکی', s:'Bebek annesini görünce çok tatlı gülümsüyor. Evin içinde huzurlu bir neşe var.', sf:'نوزاد وقتی مادرش را می‌بیند خیلی شیرین می‌خندد. درون خانه یک شادی آرامش‌بخش برقرار است.'},
-            {r:'Git', m:'رفتن', e:'t به d تبدیل می‌شود.', s:'Babam her sabah erkenden işe gidiyor. O çok çalışkan ve dürüst bir adamdır.', sf:'پدرم هر روز صبح زود به سر کار می‌رود. او مردی بسیار کوشا و درستکار است.'},
-            {r:'Ye', m:'خوردن', e:'e به i تبدیل می‌شود.', s:'Öğrenciler kantinde taze elma yiyorlar. Sağlıklı beslenmek dersler için çok önemlidir.', sf:'دانش‌آموزان در بوفه سیب تازه می‌خورند. تغذیه‌ی سالم برای درس‌ها بسیار مهم است.'},
-            {r:'Oku', m:'خواندن', e:'مختوم به صدادار، بدون کمکی.', s:'Kütüphanede sessizce kitap okuyorum. Yeni bilgiler öğrenmek beni çok mutlu ediyor.', sf:'در کتابخانه با آرامش کتاب می‌خوانم. یادگیری اطلاعات جدید مرا بسیار خوشحال می‌کند.'},
-            {r:'Anla', m:'فهمیدن', e:'حذف a و تبدیل به ı.', s:'Öğretmen konuyu anlatıyor ve ben her şeyi anlıyorum. Bu ders benim için çok kolay.', sf:'معلم موضوع را توضیح می‌دهد و من همه‌چیز را می‌فهمم. این درس برای من بسیار آسان است.'},
-            {r:'Bekle', m:'انتظار', e:'حذف e و تبدیل به i.', s:'Otobüs durağında arkadaşımı bekliyorum. Maalesef trafik yüzünden otobüs çok geç geliyor.', sf:'در ایستگاه اتوبوس منتظر دوستم هستم. متاسفانه به خاطر ترافیک، اتوبوس خیلی دیر می‌آید.'},
-            {r:'İç', m:'نوشیدن', e:'ریشه i -> i کمکی', s:'Sıcak bir bardak Türk çayı içiyoruz. Boğaz manzarası eşliğinde sohbet etmek harika.', sf:'یک استکان چای داغ ترکی می‌نوشیم. صحبت کردن در کنار منظره‌ی تنگه بسفر فوق‌العاده است.'},
-            {r:'Sev', m:'دوست داشتن', e:'ریشه e -> i کمکی', s:'İstanbul’un tarihi sokaklarını çok seviyorum. Her köşede farklı bir hikaye gizli.', sf:'کوچه‌های تاریخی استانبول را خیلی دوست دارم. در هر گوشه‌ای یک داستان متفاوت پنهان شده است.'},
-            {r:'Yap', m:'انجام دادن', e:'ریشه a -> ı کمکی', s:'Hafta sonu ödevlerimi yapıyorum. Sonra arkadaşlarımla futbol oynamaya gideceğim.', sf:'آخر هفته تکالیفم را انجام می‌دهم. بعداً با دوستانم برای بازی فوتبال خواهم رفت.'},
-            {r:'Sor', m:'پرسیدن', e:'ریشه o -> u کمکی', s:'Turist rehbere yolu soruyor. Eminönü Meydanı’na nasıl gideceğini öğrenmek istiyor.', sf:'توریست از راهنما مسیر را می‌پرسد. می‌خواهد یاد بگیرد که چگونه به میدان امین‌اونو برود.'},
-            {r:'Al', m:'گرفتن', e:'ریشه a -> ı کمکی', s:'Marketten taze ekmek ve süt alıyorum. Kahvaltı hazırlamak için acele etmem lazım.', sf:'از مارکت نان تازه و شیر می‌گیرم. برای آماده کردن صبحانه باید عجله کنم.'},
-            {r:'Bul', m:'پیدا کردن', e:'ریشه u -> u کمکی', s:'Melo bahçede küçük bir oyuncak buluyor. Onunla saatlerce keyifle oynuyor.', sf:'ملو در باغچه یک اسباب‌بازی کوچک پیدا می‌کند. ساعت‌ها با لذت با آن بازی می‌کند.'},
-            {r:'Ver', m:'دادن', e:'ریشه e -> i کمکی', s:'Garson siparişlerimizi masaya getirip veriyor. Yemekler çok sıcak ve lezzetli görünüyor.', sf:'گارسون سفارش‌های ما را آورده و به روی میز می‌دهد. غذاها خیلی داغ و لذیذ به نظر می‌رسند.'},
-            {r:'Gör', m:'دیدن', e:'ریشه ö -> ü کمکی', s:'Pencereden eski Galata Kulesi’ni görüyorum. Akşam ışıkları altında çok görkemli duruyor.', sf:'از پنجره برج قدیمی گالاتا را می‌بینم. زیر نورهای شبانه بسیار شکوهند ایستاده است.'},
-            {r:'Uyu', m:'خوابیدن', e:'بدون کمکی', s:'Yorgun gezgin ağacın altında huzurla uyuyor. Deniz sesi ona bir ninni gibi geliyor.', sf:'مسافر خسته زیر درخت با آرامش خوابیده است. صدای دریا برای او مانند یک لالایی است.'},
-            {r:'Kork', m:'ترسیدن', e:'ریشه o -> u کمکی', s:'Küçük kedi köpeklerden çok korkuyor. Bu yüzden hemen arabanın altına saklanıyor.', sf:'گربه‌ی کوچک از سگ‌ها خیلی می‌ترسد. به همین دلیل فوراً زیر ماشین قایم می‌شود.'},
-            {r:'Dinle', m:'گوش دادن', e:'حذف e -> i', s:'En sevdiğim şarkıyı kulaklıkla dinliyorum. Müzik ruhumu dinlendiriyor ve beni sakinleştiriyor.', sf:'آهنگ مورد علاقه‌ام را با هدفون گوش می‌دهم. موسیقی به روحم استراحت می‌دهد و مرا آرام می‌کند.'}
-        ];
-        
-        const extra = ['Aç','Sat','Bil','Ağla','Söyle','Başla','Bitir','Çalış','Kal','Sür','Yüz','Bin','Uyan','Giy','Seç','Tanı','Sus','Otur','Kalk','Yat','Yık','Dene','Topla','Ara','Gönder','Getir','Götür','Kazan','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Ulaş','Salla','Tart','Bit','Seyret','Kaydet','Park et','Kabul et','İptal et','Tamir et','Dolaş','Uzat','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Özle','Hızlan','Yavaşla','Koru','Hisset','Sabret','Teşekkür et','Kahvaltı yap','Spor yap'];
-        extra.forEach(v => { 
-            if(verbs.length < 100) verbs.push({r:v, m:'فعل کاربردی', e:'الگوریتم هماهنگی اصوات', s: v + 'ıyor ve hayat devam ediyor. Her şey yolunda gidecek.', sf: 'فعل ' + v + ' در حال انجام است و زندگی ادامه دارد. همه‌چیز خوب پیش خواهد رفت.'}); 
-        });
+        window.fkSpeak = function(text, lang = 'tr-TR') {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            const voices = window.speechSynthesis.getVoices();
+            let tLang = lang === 'fa' ? 'fa-IR' : (lang === 'en' ? 'en-US' : (lang === 'zh' ? 'zh-CN' : (lang === 'ar' ? 'ar-SA' : lang)));
+            const bestVoice = voices.find(v => v.lang.includes(tLang) && (v.name.includes('Google') || v.name.includes('Natural'))) || voices.find(v => v.lang.includes(tLang));
+            if (bestVoice) msg.voice = bestVoice;
+            msg.lang = tLang; msg.rate = 0.85;
+            window.speechSynthesis.speak(msg);
+        };
 
-        const prs = [{id:'Ben', n:'من', s:'um'},{id:'Sen', n:'تو', s:'sun'},{id:'O', n:'او', s:''},{id:'Biz', n:'ما', s:'uz'},{id:'Siz', n:'شما', s:'sunuz'},{id:'Onlar', n:'ایشان', s:'lar'}];
-        let items = []; let cur = 0; let score = 0;
-        
+        window.changeSourceLang = function(val) {
+            sourceLang = val;
+            document.body.className = (val === 'fa' || val === 'ar') ? 'rtl' : 'ltr';
+            updateUI(); build();
+        };
+
+        function updateUI() {
+            const t = i18n[sourceLang] || i18n['en'];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-btn-check').innerText = t.check;
+            document.getElementById('ui-btn-hint').innerText = t.hint;
+            document.getElementById('ui-btn-reveal').innerText = t.reveal;
+            document.getElementById('nav-past').innerText = t.past || "Past";
+            document.getElementById('nav-present').innerText = t.present || "Present";
+            document.getElementById('nav-future').innerText = t.future || "Future";
+            document.getElementById('nav-list').innerText = t.list || "Database";
+            document.getElementById('nav-academy').innerText = t.academy || "Academy";
+            document.getElementById('ui-sample-tag').innerText = t.sampleTag || "Practical Usage:";
+            document.getElementById('cat-tense').innerText = t.catTense || "Tense";
+            document.getElementById('cat-aspect').innerText = t.catAspect || "Aspect";
+            document.getElementById('cat-mood').innerText = t.catMood || "Mood";
+            document.getElementById('cat-help').innerText = t.catHelp || "Academy";
+
+            const sidebar = document.getElementById('sidebar');
+            const mainArea = document.getElementById('main-area');
+            if(sourceLang === 'fa' || sourceLang === 'ar') {
+                sidebar.style.right = '0'; sidebar.style.left = 'auto'; sidebar.style.borderRight = 'none'; sidebar.style.borderLeft = '1px solid #1f2937';
+                mainArea.style.marginRight = '300px'; mainArea.style.marginLeft = '0';
+            } else {
+                sidebar.style.left = '0'; sidebar.style.right = 'auto'; sidebar.style.borderLeft = 'none'; sidebar.style.borderRight = '1px solid #1f2937';
+                mainArea.style.marginLeft = '300px'; mainArea.style.marginRight = '0';
+            }
+        }
+
+        window.switchModule = function(mod) {
+            currentModule = mod; cur = 0;
+            fkTab('quiz'); build();
+        };
+
+        function generateDetailedHint(v, p, mod, ans) {
+            const curI18n = i18n[sourceLang] || i18n['en'];
+            const pName = (curI18n.personNames || i18n['en'].personNames)[p] || p;
+            const hints = {
+                en: `Analysis: We use root "${v}". Following Vowel Harmony, we apply "${mod}" logic. For "${pName}", the final form is "${ans}".`,
+                fa: `تحلیل: ریشه «${v}» را برداشته و طبق هماهنگی اصوات، عملگر «${mod}» را اعمال می‌کنیم. برای ضمیر «${pName}»، ساختار نهایی «${ans}» است.`,
+                es: `Análisis: Usamos la raíz "${v}". Siguiendo la armonía vocálica, aplicamos la lógica "${mod}". Para "${pName}", la forma final es "${ans}".`,
+                de: `Analyse: Wir verwenden den Stamm "${v}". Gemäß der Vokalharmonie wenden wir die Logik "${mod}" an. Für "${pName}" lautet das Ergebnis "${ans}".`,
+                fr: `Analyse : Nous utilisons la racine "${v}". En suivant l'harmonie vocalique, nous appliquons la logique "${mod}". Pour "${pName}", la forme finale est "${ans}".`,
+                el: `Ανάλυση: Χρησιμοποιούμε τη ρίζα "${v}". Ακολουθώντας τη φωνητική αρμονία, εφαρμόζουμε τη λογική "${mod}". Για το "${pName}", η τελική μορφή είναι "${ans}".`,
+                zh: `分析：提取词根 "${v}"。根据元音和谐规则应用 "${mod}" 逻辑。对于人称 "${pName}"，最终形式为 "${ans}"。`,
+                ar: `التحليل: نستخدم الجذر "${v}". بناءً على التوافق الصوتي، نطبق منطق "${mod}". بالنسبة للضمير "${pName}"، الصيغة النهائية هي "${ans}".`
+            };
+            return hints[sourceLang] || hints['en'];
+        }
+
         function build() {
-            verbs.forEach((v, i) => {
-                const p = prs[i % 6]; let r = v.r.toLowerCase(), res = "";
-                if(r.endsWith(' et')) r = r.slice(0,-3)+'ed';
-                if(r==='ye') res="yiyor"; else if(r==='de') res="diyor"; else if(r==='git') res="gidiyor";
-                else if(r.endsWith('a')||r.endsWith('e')) {
-                    let pen = r.length > 1 ? r.slice(-2,-1) : 'a';
-                    let h = 'i'; if('aı'.includes(pen)) h='ı'; else if('ei'.includes(pen)) h='i'; else if('ou'.includes(pen)) h='u'; else if('öü'.includes(pen)) h='ü';
-                    res = r.slice(0,-1)+h+"yor";
+            items = [];
+            const basePool = ['Gel','Bak','Git','Oku','Yaz','Gör','Sev','Yap','İç','Sor','Al','Bul','Ver','Uyu','Koş','Gül','Dur','Kapat','Aç','Dinle','Bil','Bitir','Çalış','Kal','Sür','Yüz','Bin','İn','Uç','Taşı','Düşün','Tanı','Özle','Sus','Otur','Kalk','Yat','Yık','Giy','Dene','Seç','Topla','Ara','Gönder','Getir','Götür','Kazan','Kaybet','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Ulaş','Salla','Tart','Bit','Seyret','Kaydet','Park et','Kabul et','İptal et','Devam et','Vazgeç','Sabret','Dolaş','Uzat','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Hızlan','Yavaşla','Koru','Hisset','Teشekkür et','Kahvaltı yap','Spor yap'];
+            const personKeys = ['Ben','Sen','O','Biz','Siz','Onlar'];
+
+            const samples = {
+                past: { 
+                    tr: "Dün okula gittim. Çok yoruldum. Hemen uyudum.", 
+                    en: "I went to school yesterday. I was very tired. I slept immediately.", 
+                    fa: "دیروز به مدرسه رفتم. خیلی خسته شدم. فوراً خوابیدم.", 
+                    ar: "ذهبت إلى المدرسة أمس. شعرت بتعب شديد. نمت على الفور.",
+                    es: "Ayer fui a la escuela. Estaba muy cansado. Me dormí de inmediato.",
+                    de: "Gestern bin ich zur Schule gegangen. Ich war sehr müde. Ich habe sofort geschlafen.",
+                    fr: "Hier, je suis allé à l'école. J'étais très fatigué. Je me suis endormi immédiatement.",
+                    el: "Χθες πήγα στο σχολείο. Ήμουν πολύ κουρασμένος. Κοιμήθηκα αμέσως.",
+                    zh: "昨天我去了学校。我很累。我立刻睡着了。"
                 }
-                else { let h='i'; if(r.match(/[aı]/)) h='ı'; else if(r.match(/[ou]/)) h='u'; else if(r.match(/[öü]/)) h='ü'; res = r+(r.match(/[aeıioöuü]$/)?"":h)+"yor"; }
-                items.push({ r:v.r, m:v.m, p:p.id, pn:p.n, ans:res+p.s, expl:v.e, sample:v.s, sampleF:v.sf });
-            });
+                // (More samples would be added here similarly)
+            };
+
+            for(let i=0; i<100; i++) {
+                let r = basePool[i % basePool.length];
+                let pKey = personKeys[i % 6];
+                let ans = getLogic(r, pKey, currentModule);
+                let sampleData = samples[currentModule] || {tr: `${r} ile ilgili örnek cümle.`, en: "General sample usage.", fa: "نمونه استفاده عمومی.", ar: "مثال عام للاستخدام.", es: "Uso general.", de: "Beispiel.", fr: "Exemple.", el: "Παράδειγμα.", zh: "示例。"};
+                
+                items.push({
+                    r: r, m: r + " (Verb)", p: pKey, ans: ans, 
+                    hint: generateDetailedHint(r, pKey, currentModule, ans),
+                    sample: sampleData.tr, sampleT: sampleData[sourceLang] || sampleData.en
+                });
+            }
+            load();
+        }
+
+        function getLogic(v, p, mod) {
+            let r = v.toLowerCase(); let lv = (r.match(/[aeıioöuü]/g)||['a']).pop();
+            const sPresent = {Ben:'um',Sen:'sun',O:'',Biz:'uz',Siz:'sunuz',Onlar:'lar'};
+            if(mod==='continuous') {
+                if(r==='ye') r='yiyor'; else if(r==='git') r='gidiyor'; else if(r.endsWith('a')||r.endsWith('e')) r=r.slice(0,-1)+('aı'.includes(r.slice(-2,-1))?'ı':'i')+'yor';
+                else { let h='i'; if('aı'.includes(lv)) h='ı'; else if('ou'.includes(lv)) h='u'; else if('öü'.includes(lv)) h='ü'; r+=h+'yor'; }
+                return r + sPresent[p];
+            }
+            if(mod==='past') {
+                let d = "fstkçşhp".includes(r.slice(-1))?'t':'d'; let h='i'; if('aı'.includes(lv)) h='ı'; else if('ou'.includes(lv)) h='u'; else if('öü'.includes(lv)) h='ü';
+                const s = {Ben:'m',Sen:'n',O:'',Biz:'k',Siz:h+'niz',Onlar:'lar'};
+                return r+d+h+s[p];
+            }
+            return r;
         }
 
         window.fkTab = function(t) {
-            ['quiz','list','auth'].forEach(s => document.getElementById('sec-'+s).style.display = 'none');
-            ['nav-quiz','nav-list','nav-auth'].forEach(n => document.getElementById(n).classList.remove('active'));
-            document.getElementById('sec-'+t).style.display = 'block'; document.getElementById('nav-'+t).classList.add('active');
-            if(t==='list') { 
-                const b=document.getElementById('list-body'); b.innerHTML=""; 
-                items.forEach((q,i)=> b.innerHTML+=`<tr><td>${i+1}</td><td style="color:#fbbf24;font-weight:bold">${q.r}</td><td>${q.m}</td><td dir="ltr" style="color:#3b82f6">${q.ans}</td><td><button class="btn-speak" onclick="fkSpeak('${q.ans}')">🔊</button></td></tr>`); 
-            }
+            ['academy', 'quiz', 'list', 'auth'].forEach(s => { const el = document.getElementById('sec-'+s); if(el) el.style.display = 'none'; });
+            document.getElementById('sec-'+t).style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(t === 'list') renderList();
         };
 
         window.move = function(d) { cur=(cur+d+100)%100; load(); };
         
         function load() {
-            const q = items[cur]; 
-            document.getElementById('v-root').innerText = q.r.toUpperCase(); 
+            const q = items[cur];
+            const t = i18n[sourceLang] || i18n['en'];
+            const pNames = t.personNames || i18n['en'].personNames;
+            const pn = pNames[q.p] || q.p;
+
+            document.getElementById('module-title-ui').innerText = t[currentModule] || currentModule;
+            document.getElementById('v-root').innerText = q.r.toUpperCase();
             document.getElementById('v-mean').innerText = `(${q.m})`;
-            document.getElementById('v-pers').innerText = `${q.p.toUpperCase()} (${q.pn})`; 
-            document.getElementById('fk-info').innerText = `گام ${cur+1} از ۱۰۰`;
-            
-            const i = document.getElementById('fk-input'); i.value = ""; i.className = ""; 
+            document.getElementById('v-pers').innerText = `${q.p.toUpperCase()} (${pn})`;
+            document.getElementById('fk-info').innerText = `${t.step || "Step"} ${cur+1} / 100`;
+            document.getElementById('fk-input').value = ""; document.getElementById('fk-input').className = "";
             document.getElementById('v-expl').style.display = 'none';
-            document.getElementById('v-root').onclick = () => fkSpeak(q.r);
-            
-            // Load Sample Paragraph
             document.getElementById('sample-tr').innerText = q.sample;
-            document.getElementById('sample-fa').innerText = q.sampleF;
-            document.getElementById('sample-tr').onclick = () => fkSpeak(q.sample);
+            document.getElementById('sample-target').innerText = q.sampleT;
+            
+            // Visual Scenario Fetching
+            document.getElementById('scenario-img').src = `https://loremflickr.com/800/400/landscape,${q.r.toLowerCase()}?random=${cur}`;
+            
+            document.getElementById('sample-tr').onclick = () => fkSpeak(q.sample, 'tr-TR');
+            document.getElementById('v-root').onclick = () => fkSpeak(q.r, 'tr-TR');
         }
 
+        window.toggleHint = function() {
+            const e = document.getElementById('v-expl'); const q = items[cur];
+            e.innerText = q.hint;
+            const isVisible = e.style.display === 'block';
+            e.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible && sourceLang !== 'fa' && sourceLang !== 'ar') fkSpeak(q.hint, sourceLang);
+        };
+
         window.check = function() {
-            const val = document.getElementById('fk-input').value.trim().toLowerCase();
-            if(val===items[cur].ans.toLowerCase()) { 
-                score+=10; document.getElementById('fk-score').innerText = `امتیاز: ${score}`; 
-                reveal(); 
-                fkSpeak(items[cur].ans); 
-            }
-            else document.getElementById('fk-input').className = "wrong";
+            if(document.getElementById('fk-input').value.trim().toLowerCase() === items[cur].ans.toLowerCase()) {
+                score+=10; document.getElementById('fk-score').innerText = `${(i18n[sourceLang]||i18n['en']).score}: ${score}`;
+                document.getElementById('fk-input').className = "correct";
+                fkSpeak(items[cur].ans, 'tr-TR');
+            } else document.getElementById('fk-input').className = "wrong";
         };
 
         window.reveal = function() {
-            const q = items[cur]; 
-            document.getElementById('fk-input').value = q.ans; 
-            document.getElementById('fk-input').className = "correct";
-            const e = document.getElementById('v-expl'); 
-            e.innerHTML = `<div style="color:#fff;font-weight:bold;margin-bottom:12px;font-size:18px">نتیجه کامپایل: ${q.ans}</div>${q.expl}`; 
-            e.style.display = 'block';
+            document.getElementById('fk-input').value = items[cur].ans;
+            fkSpeak(items[cur].ans, 'tr-TR');
         };
 
-        build(); load();
-        document.getElementById('fk-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') check(); });
+        function renderList() {
+            const b = document.getElementById('list-body'); b.innerHTML = "";
+            items.forEach((q, i) => {
+                b.innerHTML += `<tr><td>${i+1}</td><td style="color:var(--accent-root);font-weight:bold">${q.r}</td><td>${q.m}</td><td dir="ltr">${q.ans}</td><td><button onclick="fkSpeak('${q.ans}')">🔊</button></td></tr>`;
+            });
+        }
+
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+        changeSourceLang('en');
+        switchModule('past');
     })();
     </script>
 </body>
