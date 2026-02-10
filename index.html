@@ -285,6 +285,10 @@
             document.getElementById('nav-academy').innerText = t.academy || "Academy";
             document.getElementById('nav-auth').innerText = t.auth || "Author";
             document.getElementById('ui-sample-tag').innerText = t.sampleTag || "Practical Usage:";
+            document.getElementById('cat-tense').innerText = t.catTense || "Tense";
+            document.getElementById('cat-aspect').innerText = t.catAspect || "Aspect";
+            document.getElementById('cat-mood').innerText = t.catMood || "Mood";
+            document.getElementById('cat-help').innerText = t.catHelp || "Academy";
             
             const sidebar = document.getElementById('sidebar');
             const mainArea = document.getElementById('main-area');
@@ -309,7 +313,6 @@
             let isVowelEnded = "aeıioöuü".includes(r.slice(-1));
             let isHard = "fstkçşhp".includes(r.slice(-1));
 
-            // Helpers
             const v4 = (v) => "aeıioöuü".includes(v) ? ("aı".includes(v) ? "ı" : "ei".includes(v) ? "i" : "ou".includes(v) ? "u" : "ü") : "i";
             const v2 = (v) => "aeıioöuü".includes(v) ? ("aıou".includes(v) ? "a" : "e") : "e";
             
@@ -319,7 +322,6 @@
 
             const applyHarmony = (str, lv) => str.replace(/I/g, v4(lv)).replace(/A/g, v2(lv));
 
-            // Consonant Mutation (git, et, tat)
             const mutate = (root) => {
                 if (root === 'git') return 'gid';
                 if (root === 'tat') return 'tad';
@@ -345,16 +347,14 @@
                     return baseF + suffixF + applyHarmony(type1[p], lastV);
 
                 case 'aorist':
-                    let aSuffix = isVowelEnded ? 'r' : (r.length <= 3 ? applyHarmony('Ar', lastV) : applyHarmony('Ir', lastV));
+                    let aSuffix = isVowelEnded ? 'r' : (v.length <= 3 ? applyHarmony('Ar', lastV) : applyHarmony('Ir', lastV));
                     return mutate(r) + aSuffix + applyHarmony(type1[p], lastV);
 
                 case 'perfect':
-                    let m = isHard ? 'm' : 'm'; // -miş is always m
-                    let mSuffix = 'm' + v4(lastV) + 'ş';
-                    return r + mSuffix + applyHarmony(type1[p], lastV);
+                    return r + 'm' + v4(lastV) + 'ş' + applyHarmony(type1[p], lastV);
 
                 case 'imperative':
-                    if (p === 'Ben' || p === 'Biz') return "(N/A)";
+                    if (p === 'Ben' || p === 'Biz') return ""; // Filtered out in build()
                     return r + applyHarmony(type3[p], lastV);
 
                 case 'conditional':
@@ -364,9 +364,7 @@
                     return r + applyHarmony('mAlI', lastV) + applyHarmony(type1[p], lastV);
                 
                 case 'ability':
-                    let ab = isVowelEnded ? 'y' : '';
-                    ab += applyHarmony('Abil', lastV);
-                    // Ability typically carries a tense, defaulting here to aorist for simplicity
+                    let ab = (isVowelEnded ? 'y' : '') + applyHarmony('Abil', lastV);
                     return mutate(r) + ab + 'ir' + applyHarmony(type1[p], 'i');
 
                 default: return r;
@@ -399,12 +397,13 @@
 
         function build() {
             items = [];
-            const basePool = ['Gel','Bak','Git','Oku','Yaz','Gör','Sev','Yap','İç','Sor','Al','Bul','Ver','Uyu','Koş','Gül','Dur','Kapat','Aç','Dinle','Bil','Bitir','Çalış','Kal','Sür','Yüz','Bin','İn','Uç','Taşı','Düşün','Tanı','Özle','Sus','Otur','Kalk','Yat','Yık','Giy','Dene','Seç','Topla','Ara','Gönder','Getir','Götür','Kazan','Kaybet','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Hızlan','Yavaşla','Koru','Hisset','Teşekkür et','Kahvaltı yap','Spor yap'];
+            const basePool = ['Gel','Bak','Git','Oku','Yaz','Gör','Sev','Yap','İç','Sor','Al','Bul','Ver','Uyu','Koش','Gül','Dur','Kapat','Aç','Dinle','Bil','Bitir','Çalış','Kal','Sür','Yüz','Bin','İn','Uç','Taşı','Düşün','Tanı','Özle','Sus','Otur','Kalk','Yat','Yık','Dene','Seç','Topla','Ara','Gönder','Getir','Götür','Kazan','Kaybet','Vur','Tut','Bırak','Kır','Pişir','Tad','Kokla','Dokun','Kaç','Sakla','Gez','Kız','Konuş','Gülümse','Hazırla','Unut','Hatırla','Değiştir','Yürü','Dinlen','Fırçala','Oyna','Bağır','Tırman','Boya','Hızlan','Yavaşla','Koru','Hisset','Teشekkür et','Kahvaltı yap','Spor yap'];
             const personKeys = ['Ben','Sen','O','Biz','Siz','Onlar'];
+            const impPersons = ['Sen','O','Siz','Onlar'];
 
             for(let i=0; i<100; i++) {
                 let r = basePool[i % basePool.length];
-                let pKey = personKeys[i % 6];
+                let pKey = (currentModule === 'imperative') ? impPersons[i % 4] : personKeys[i % 6];
                 let ans = getLogic(r, pKey, currentModule);
                 
                 let info = verbContexts[r] || {scen: {tr: `${r} eylemi hakkında bir hikaye. Her şey yolunda gidecek.`, en: `A story about the action of ${r}. Everything will be fine.`, fa: `داستانی درباره عمل ${r}. همه چیز خوب پیش خواهد رفت.`}};
